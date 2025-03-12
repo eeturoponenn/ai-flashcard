@@ -20,7 +20,7 @@ enum Role {
 }
 
 model User {
-  id    Int   @id @default(autoincrement())
+  id    String   @id @default(uuid())
   email String   @unique
   password String
   role  Role     @default(USER)
@@ -28,19 +28,19 @@ model User {
 }
 
 model Deck {
-  id        Int      @id @default(autoincrement())
+  id        String      @id @default(uuid())
   name      String
-  description String
-  userId    Int
+  description String?
+  userId    String
   user      User        @relation(fields: [userId], references: [id], onDelete: Cascade)
   flashcards Flashcard[]
 }
 
 model Flashcard {
-  id      Int @id @default(autoincrement())
+  id      String @id @default(uuid())
   question   String
   answer    String
-  deckId  Int
+  deckId  String
   deck    Deck   @relation(fields: [deckId], references: [id], onDelete: Cascade)
 }
 

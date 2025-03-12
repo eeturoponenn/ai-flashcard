@@ -3,13 +3,12 @@ import { signIn } from 'next-auth/react';
 
 export default function SignIn() {
   const onSubmit = async (e: React.FormEvent) => {
-    e.preventDefault(); // Prevent the default form submission
+    e.preventDefault();
 
-    const formData = new FormData(e.target as HTMLFormElement); // Get FormData from the form
-    const email = formData.get('email') as string; // Extract email
-    const password = formData.get('password') as string; // Extract password
+    const formData = new FormData(e.target as HTMLFormElement); 
+    const email = formData.get('email') as string; 
+    const password = formData.get('password') as string; 
 
-    // Call signIn with extracted data
     await signIn("credentials", {
       email,
       password,

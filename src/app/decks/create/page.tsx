@@ -1,10 +1,12 @@
 "use client"
+
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 export default function CreateDeck() {
-  const [deckName, setDeckName] = useState("");
+  const [name, setName] = useState("");
   const [description, setDescription] = useState("");
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
   const router = useRouter();
@@ -13,31 +15,59 @@ export default function CreateDeck() {
     e.preventDefault();
     setLoading(true);
 
-    // Add the logic to create a deck (mock or connect to your API here)
-    // const newDeck = { name: deckName, description: description };
+    try {
+      const res = await fetch("/api/decks", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name,
+          description: description || null,
+        }),
+      });
 
-    // Simulate a deck creation success
-    setTimeout(() => {
-      alert("Deck created successfully!");
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.error || "Pakan luonti epäonnistui");
+      }
+
+      
+        alert("Pakka luotiin onnistuneesti!");
+        setLoading(false);
+        router.push("/decks");
+      
+
+    } catch (error: unknown) {
+
+      if (error instanceof Error) {
+        setError(error.message);
+      } else {
+        setError("Jokin meni pieleen.");
+      }
+      
+    } finally {
       setLoading(false);
-      router.push("/decks"); // Redirect to the decks list page
-    }, 1000);
+    }
   };
+  
 
   return (
     <div className="max-w-4xl mx-auto py-8 min-h-screen">
       <h1 className="text-3xl font-bold mb-6 text-black">Luo uusi korttipakka</h1>
+      {error && <p className="text-red-500">{error}</p>}
       
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label htmlFor="deckName" className="block text-lg font-medium text-black">
-            Pakka nimi
+          <label htmlFor="name" className="block text-lg font-medium text-black">
+            Pakan nimi
           </label>
           <input
             type="text"
-            id="deckName"
-            value={deckName}
-            onChange={(e) => setDeckName(e.target.value)}
+            id="name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
             required
             className="mt-2 p-2 border border-gray-300 rounded-lg w-full"
             placeholder="Anna korttipakan nimi"
@@ -52,7 +82,6 @@ export default function CreateDeck() {
             id="description"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            required
             className="mt-2 p-2 border border-gray-300 rounded-lg w-full"
             placeholder="Anna korttipakan kuvaus"
           />

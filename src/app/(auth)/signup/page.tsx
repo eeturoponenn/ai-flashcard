@@ -10,19 +10,19 @@ export default function SignUp() {
   const [isLoading, setIsLoading] = useState(false)
   const router = useRouter()
 
-  // Handle form submission
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
     if (!email || !password) {
-      setError('Both fields are required')
+      setError('Molemmat kentät ovat pakollisia')
       return
     }
 
     setIsLoading(true)
 
     try {
-      // Send data to API route
+   
       const response = await fetch('/api/auth/signup', {
         method: 'POST',
         headers: {
@@ -36,7 +36,7 @@ export default function SignUp() {
       if (response.status === 400) {
         setError(data.error)
       } else {
-        // Redirect to login after successful sign-up
+    
         router.push('/signin')
       }
 
@@ -44,7 +44,7 @@ export default function SignUp() {
 
     } catch (error) {
       console.error(error)
-      setError('An error occurred. Please try again later.')
+      setError('Tapahtui virhe. Yritä uudelleen myöhemmin.')
       setIsLoading(false)
     }
   }

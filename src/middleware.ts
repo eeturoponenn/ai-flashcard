@@ -8,5 +8,5 @@ export default withAuth({
 });
 
 export const config = {
-  matcher: ["/decks"], 
+  matcher: ["/decks/:path*"], 
 };

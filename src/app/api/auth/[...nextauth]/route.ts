@@ -4,7 +4,7 @@ import NextAuth, { type NextAuthOptions } from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
 
 type User = {
-  id: number,
+  id: string,
   email: string,
   password: string
 }
@@ -57,7 +57,7 @@ export const authOptions: NextAuthOptions = {
   ],
   callbacks: {
     session: ({session, token}) => {
-      console.log('Session callback', {session, token})
+
       return {
         ...session,
         user: {
@@ -67,7 +67,7 @@ export const authOptions: NextAuthOptions = {
       }
     },
     jwt: ({ token, user}) => {
-      console.log('JWT Callback', {token, user})
+   
       if(user){
         const u = user as unknown as User
         return {
