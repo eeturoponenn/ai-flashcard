@@ -3,6 +3,7 @@
 import { useSession } from "next-auth/react";
 import React, { useEffect, useState, use } from "react";
 import { useRouter } from "next/navigation";
+import { ArrowLeft } from "lucide-react";
 
 type Deck = {
   id: string;
@@ -57,19 +58,33 @@ export default function DeckDetails({params}: {params: Promise<{deckId: string}>
   }
 
   return (
-    <div>
-      <h1>{deck.name}</h1>
-      <p>{deck.description}</p>
-      <div className="mt-4">
+    <div className="max-w-2xl mx-auto p-6 bg-white rounded-2xl shadow-lg mt-6">
+      
+      <div className="mb-6">
+        <button
+          onClick={() => router.push("/decks")}
+          className="flex items-center text-blue-600 hover:text-blue-800 transition-colors"
+        >
+          <ArrowLeft className="w-5 h-5 mr-2" />
+          <span className="font-medium">Takaisin pakkoihin</span>
+        </button>
+      </div>
+
+      
+      <h1 className="text-2xl font-bold text-gray-800 mb-2">{deck.name}</h1>
+      <p className="text-gray-600 mb-6">{deck.description}</p>
+
+      
+      <div className="flex gap-4">
         <button
           onClick={() => router.push(`/decks/create-cards/${deck.id}`)}
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-xl transition-colors shadow"
         >
           Luo muistikortteja pakalle
         </button>
         <button
-          onClick={() => router.push(`/decks/practice/${deck.id}`)}
-          className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded ml-2"
+          onClick={() => router.push(`/decks/practise/${deck.id}`)}
+          className="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-xl transition-colors shadow"
         >
           Harjoittele pakkaa
         </button>

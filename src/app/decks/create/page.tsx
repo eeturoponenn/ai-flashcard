@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { ArrowLeft } from "lucide-react";
 
 export default function CreateDeck() {
   const [name, setName] = useState("");
@@ -55,9 +56,18 @@ export default function CreateDeck() {
 
   return (
     <div className="max-w-4xl mx-auto py-8 min-h-screen">
+      <div className="mb-4 text-left">
+        <button
+          onClick={() => router.push("/decks")}
+          className="flex items-center text-blue-600 hover:text-blue-800"
+        >
+          <ArrowLeft className="w-5 h-5 mr-1" />
+          Takaisin pakkoihin
+        </button>
+      </div>
       <h1 className="text-3xl font-bold mb-6 text-black">Luo uusi korttipakka</h1>
       {error && <p className="text-red-500">{error}</p>}
-      
+
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <label htmlFor="name" className="block text-lg font-medium text-black">

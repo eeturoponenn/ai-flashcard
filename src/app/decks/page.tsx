@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 type Deck = {
-  id: number;
+  id: string;
   name: string;
   description: string;
   userId: number;

@@ -3,20 +3,24 @@ import { prisma } from '@/lib/prisma';
 import { getServerSession } from 'next-auth'; 
 import { authOptions } from '../../../auth/[...nextauth]/route'; 
 
+
 type FlashcardInput = {
     question: string;
     answer: string;
   };
 
 // GET request to fetch flashcards for a specific deck
-export async function GET({ params }: { params: Promise<{ deckId: string }> }) {
+export async function GET(req: Request, { params }: { params: Promise<{ deckId: string }> }) {
   const session = await getServerSession(authOptions);
 
   if (!session) {
     return NextResponse.json({ error: 'Ei oikeutta' }, { status: 401 });
   }
 
+  
   const { deckId } = await params;
+
+  console.log("deckid", deckId)
 
   try {
     const flashcards = await prisma.flashcard.findMany({
@@ -24,6 +28,8 @@ export async function GET({ params }: { params: Promise<{ deckId: string }> }) {
         deckId: deckId,
       },
     });
+
+
 
     return NextResponse.json(flashcards);
   } catch (error) {
