@@ -1,5 +1,10 @@
+"use client";
 
-export default async function Home() {
+import { useRouter } from "next/navigation";
+
+export default function Home() {
+
+  const router = useRouter();
 
   return (
     <div className="flex flex-col items-center">
@@ -11,7 +16,9 @@ export default async function Home() {
         <p className="mt-4">
           Luo muistikortteja automaattisesti, ja tehosta oppimistasi tekoälyn avulla.
         </p>
-        <button className="mt-6 px-6 py-3 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700">
+        <button 
+          onClick={() => router.push("/decks")}
+          className="mt-6 px-6 py-3 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700">
           Aloita nyt
         </button>
       </section>

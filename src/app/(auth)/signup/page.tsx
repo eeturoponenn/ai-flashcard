@@ -16,7 +16,12 @@ export default function SignUp() {
 
     if (!email || !password) {
       setError('Molemmat kentät ovat pakollisia')
-      return
+      return;
+    }
+
+    if(password.length < 8){
+      setError('Salasanan täytyy olla ainakin 8 merkkiä pitkä')
+      return;
     }
 
     setIsLoading(true)

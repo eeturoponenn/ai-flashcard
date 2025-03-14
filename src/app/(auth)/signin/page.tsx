@@ -1,20 +1,36 @@
-"use client"
-import { signIn } from 'next-auth/react';
+"use client";
+import { useState } from "react";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 export default function SignIn() {
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
+
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
+    setError(null); // Clear previous errors
 
-    const formData = new FormData(e.target as HTMLFormElement); 
-    const email = formData.get('email') as string; 
-    const password = formData.get('password') as string; 
+    const formData = new FormData(e.target as HTMLFormElement);
+    const email = formData.get("email") as string;
+    const password = formData.get("password") as string;
 
-    await signIn("credentials", {
+    const result = await signIn("credentials", {
       email,
       password,
-      redirect: true,
+      redirect: false,
       callbackUrl: "/decks",
     });
+
+    if (result?.error) {
+      setError("Virheellinen sähköposti tai salasana.");
+      setLoading(false);
+    } else {
+      
+      router.push("/decks")
+    }
   };
 
   return (
@@ -22,7 +38,13 @@ export default function SignIn() {
       onSubmit={onSubmit}
       className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md"
     >
-      <h2 className="text-2xl font-semibold text-center text-gray-800 mb-6">Kirjaudu Sisään</h2>
+      <h2 className="text-2xl font-semibold text-center text-gray-800 mb-6">
+        Kirjaudu Sisään
+      </h2>
+
+      {error && (
+        <p className="text-red-600 text-sm mb-4 text-center">{error}</p>
+      )}
 
       <label className="block text-gray-700 mb-2" htmlFor="email">
         Sähköposti
@@ -48,9 +70,11 @@ export default function SignIn() {
 
       <button
         type="submit"
-        className="w-full py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        className={`w-full py-3 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${loading ? "bg-blue-400 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700"
+          }`}
+        disabled={loading}
       >
-        Kirjaudu sisään
+        {loading ? "Kirjaudutaan..." : "Kirjaudu sisään"}
       </button>
 
       <div className="mt-4 text-center text-gray-600">
