@@ -8,7 +8,7 @@ export const LoginButton = () => {
   const { data: session } = useSession();
 
   if (session) {
-    return null;  // If the user is already logged in, hide the login button
+    return null;  
   }
 
   return (
@@ -31,12 +31,12 @@ export const LogoutButton = () => {
   const { data: session } = useSession();
 
   if (!session) {
-    return null;  // If the user is not logged in, hide the logout button
+    return null;  
   }
 
   return (
     <button
-      onClick={() => signOut({ callbackUrl: "/signin" })}  // Redirect to sign-in page after logging out
+      onClick={() => signOut({ callbackUrl: "/signin" })}  
       className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'
     >
       Kirjaudu ulos

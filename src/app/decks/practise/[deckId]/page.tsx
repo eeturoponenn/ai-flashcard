@@ -38,10 +38,10 @@ export default function Practise({ params }: { params: Promise<{ deckId: string 
                     const data = await res.json();
                     setDeck(data);
                 } else {
-                    console.error('Failed to fetch deck:', res.statusText);
+                    console.error('Pakan haku epäonnstui:', res.statusText);
                 }
             } catch (error) {
-                console.error('Error fetching deck:', error);
+                console.error('Virhe pakan haussa:', error);
             }
         };
 
@@ -52,10 +52,10 @@ export default function Practise({ params }: { params: Promise<{ deckId: string 
                     const data = await res.json();
                     setFlashcards(data);
                 } else {
-                    console.error('Failed to fetch flashcards:', res.statusText);
+                    console.error('Korttien haku epäonnistui:', res.statusText);
                 }
             } catch (error) {
-                console.error('Error fetching flashcards:', error);
+                console.error('Virhe korttien haussa:', error);
             } finally {
                 setLoading(false);
             }
