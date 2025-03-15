@@ -24,7 +24,6 @@ export default function Flashcards({ params }: { params: Promise<{ deckId: strin
             const res = await fetch(`/api/decks/${deckId}/flashcards`);
             if (res.ok) {
                 const data = await res.json();
-                console.log("moi", data)
                 setFlashcards(data);
             } else {
                 console.error('Korttien haku epäonnistui:', res.statusText);
@@ -39,7 +38,7 @@ export default function Flashcards({ params }: { params: Promise<{ deckId: strin
 
   const handleDelete = async (flashcardId: string) => {
     try {
-      const res = await fetch(`/api/decks/${deckId}/flashcards/${flashcardId}`, {
+      const res = await fetch(`/api/flashcards/${flashcardId}`, {
         method: "DELETE",
       });
 
@@ -49,7 +48,7 @@ export default function Flashcards({ params }: { params: Promise<{ deckId: strin
         setError("Virhe poistaessa muistikorttia.");
       }
     } catch (err) {
-        console.error(err)
+      console.error(err)
       setError("Virhe poistaessa muistikorttia.");
     }
   };

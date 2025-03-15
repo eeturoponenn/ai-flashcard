@@ -15,20 +15,26 @@ type Deck = {
 export default function Decks() {
   const { data: session, status } = useSession();
   const [decks, setDecks] = useState<Deck[]>([]);
+  const [loading, setLoading] = useState(true);
   const router = useRouter();
 
   useEffect(() => {
     const fetchDecks = async () => {
-      const res = await fetch("/api/decks");
-
-      const data = await res.json();
-
-
-      setDecks(data);
+      try {
+        const res = await fetch("/api/decks");
+        const data = await res.json();
+        setDecks(data);
+      } catch (error) {
+        console.error("Pakan haku epäonnistui:", error);
+      } finally {
+        setLoading(false);
+      }
     };
 
     if (session) {
       fetchDecks();
+    } else {
+      setLoading(false);
     }
   }, [session]);
 
@@ -57,7 +63,7 @@ export default function Decks() {
   return (
     <div className="p-6">
       <h1 className="text-3xl font-bold mb-6 text-gray-800">Sinun pakat</h1>
-      
+
       <div className="mb-6">
         <button
           onClick={() => router.push("/decks/create")}
@@ -68,14 +74,18 @@ export default function Decks() {
       </div>
 
       <div>
-        {decks.length === 0 ? (
+        {loading ? (
+          <p className="text-gray-600 animate-pulse">Ladataan pakkoja...</p>
+        ) : decks.length === 0 ? (
           <p className="text-gray-600">Ei pakkoja.</p>
         ) : (
           <ul className="space-y-4">
             {decks.map((deck) => (
-              <li key={deck.id} 
-              className="p-4 border border-gray-300 rounded-lg shadow-md hover:shadow-lg transition-shadow"
-              onClick={() => router.push(`/decks/${deck.id}`)}>
+              <li
+                key={deck.id}
+                className="p-4 border border-gray-300 rounded-lg shadow-md hover:shadow-lg transition-shadow cursor-pointer"
+                onClick={() => router.push(`/decks/${deck.id}`)}
+              >
                 <h2 className="text-2xl font-semibold text-blue-600">{deck.name}</h2>
                 <p className="text-gray-700 mt-2">{deck.description || ""}</p>
               </li>

@@ -9,7 +9,6 @@ type FlashcardInput = {
     answer: string;
   };
 
-// GET request to fetch flashcards for a specific deck
 export async function GET(req: Request, { params }: { params: Promise<{ deckId: string }> }) {
   const session = await getServerSession(authOptions);
 
@@ -19,8 +18,6 @@ export async function GET(req: Request, { params }: { params: Promise<{ deckId: 
 
   
   const { deckId } = await params;
-
-  console.log("deckid", deckId)
 
   try {
     const flashcards = await prisma.flashcard.findMany({
@@ -38,7 +35,6 @@ export async function GET(req: Request, { params }: { params: Promise<{ deckId: 
   }
 }
 
-// POST request to create a flashcard for a specific deck
 export async function POST(request: Request, { params }: { params: Promise<{ deckId: string }> }) {
   const session = await getServerSession(authOptions);
 

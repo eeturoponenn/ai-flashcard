@@ -24,10 +24,10 @@ export default function CreateFlashcards({ params }: { params: Promise<{ deckId:
                 const data = await res.json();
                 setDeck(data);
             } else {
-                console.error('Failed to fetch deck:', res.statusText);
+                console.error('Pakan haku epäonnistui:', res.statusText);
             }
         } catch (error) {
-            console.error('Error fetching deck:', error);
+            console.error('Virhe pakan haussa:', error);
         }
     };
     fetchDeck();
