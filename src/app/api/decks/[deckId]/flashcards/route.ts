@@ -3,11 +3,10 @@ import { prisma } from '@/lib/prisma';
 import { getServerSession } from 'next-auth'; 
 import { authOptions } from '../../../auth/[...nextauth]/route'; 
 
-
 type FlashcardInput = {
     question: string;
     answer: string;
-  };
+};
 
 export async function GET(req: Request, { params }: { params: Promise<{ deckId: string }> }) {
   const session = await getServerSession(authOptions);
@@ -16,7 +15,6 @@ export async function GET(req: Request, { params }: { params: Promise<{ deckId: 
     return NextResponse.json({ error: 'Ei oikeutta' }, { status: 401 });
   }
 
-  
   const { deckId } = await params;
 
   try {
@@ -26,11 +24,9 @@ export async function GET(req: Request, { params }: { params: Promise<{ deckId: 
       },
     });
 
-
-
     return NextResponse.json(flashcards);
   } catch (error) {
-    console.error(error)
+    console.error(error);
     return NextResponse.json({ error: 'Virhe muistikorttien hakemisessa' }, { status: 500 });
   }
 }
@@ -43,7 +39,21 @@ export async function POST(request: Request, { params }: { params: Promise<{ dec
   }
 
   const { deckId } = await params;
-  const { flashcards } = await request.json();
+  const flashcards: FlashcardInput[] = await request.json();
+
+
+  const deck = await prisma.deck.findUnique({
+    where: { id: deckId },
+    select: { userId: true },
+  });
+
+  if (!deck) {
+    return NextResponse.json({ error: 'Pakkaa ei löydy' }, { status: 404 });
+  }
+
+  if (deck.userId !== session.user.id) {
+    return NextResponse.json({ error: 'Ei oikeutta luoda kortteja tälle pakalle' }, { status: 403 });
+  }
 
   try {
     const createdFlashcards = await Promise.all(

@@ -85,7 +85,7 @@ export default function Flashcards({ params }: { params: Promise<{ deckId: strin
             <h1 className="text-2xl font-bold text-gray-800 mb-4">Muistikortit</h1>
 
             <button
-                onClick={() => router.push(`/decks/create-cards/${deckId}`)}
+                onClick={() => router.push(`/decks/create-cards/ai/${deckId}`)}
                 className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-xl mb-4"
             >
                 Lisää muistikortteja

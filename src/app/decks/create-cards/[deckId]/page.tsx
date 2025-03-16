@@ -54,7 +54,7 @@ export default function CreateFlashcards({ params }: { params: Promise<{ deckId:
       router.push(`/decks/${deckId}`);
     } else {
     
-      alert("Failed to save flashcards.");
+      alert("Korttien luonti epäonnistui. Yritä uudestaan.");
     }
   };
 

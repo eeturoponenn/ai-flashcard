@@ -75,7 +75,7 @@ export default function DeckDetails({ params }: { params: Promise<{ deckId: stri
 
       <div className="flex flex-wrap gap-4">
         <button
-          onClick={() => router.push(`/decks/create-cards/${deck.id}`)}
+          onClick={() => router.push(`/decks/create-cards/ai/${deck.id}`)}
           className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-xl transition-colors shadow"
         >
           Luo muistikortteja pakalle
