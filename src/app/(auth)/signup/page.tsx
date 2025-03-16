@@ -2,10 +2,12 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { signIn } from "next-auth/react";
 
 export default function SignUp() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
   const [error, setError] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const router = useRouter()
@@ -14,14 +16,19 @@ export default function SignUp() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
-    if (!email || !password) {
-      setError('Molemmat kentät ovat pakollisia')
-      return;
+    if (!email || !password || !confirmPassword) {
+      setError('Kaikki kentät ovat pakollisia')
+      return
     }
 
     if(password.length < 8){
       setError('Salasanan täytyy olla ainakin 8 merkkiä pitkä')
-      return;
+      return
+    }
+
+    if (password !== confirmPassword) {
+      setError('Salasanat eivät täsmää')
+      return
     }
 
     setIsLoading(true)
@@ -41,8 +48,19 @@ export default function SignUp() {
       if (response.status === 400) {
         setError(data.error)
       } else {
-    
-        router.push('/signin')
+        
+        const signInResponse = await signIn('credentials', {
+          redirect: false,
+          email,
+          password,
+        })
+
+        if (signInResponse?.error) {
+          setError('Kirjautuminen epäonnistui')
+        } else {
+          
+          router.push('/decks')
+        }
       }
 
       setIsLoading(false)
@@ -80,15 +98,32 @@ export default function SignUp() {
         <label className="block text-gray-700 mb-2" htmlFor="password">
           Salasana
         </label>
-        <input
-          id="password"
-          name="password"
-          type="password"
-          required
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className="w-full p-3 mb-6 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
+        <div className="relative">
+          <input
+            id="password"
+            name="password"
+            type='password'
+            required
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="w-full p-3 mb-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+
+        <label className="block text-gray-700 mb-2" htmlFor="confirmPassword">
+          Vahvista salasana
+        </label>
+        <div className="relative">
+          <input
+            id="confirmPassword"
+            name="confirmPassword"
+            type='password'
+            required
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            className="w-full p-3 mb-6 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
 
         <button
           type="submit"
