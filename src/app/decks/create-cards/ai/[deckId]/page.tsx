@@ -2,6 +2,7 @@
 
 import { useState, use } from 'react';
 import { useRouter } from 'next/navigation';
+import { ArrowLeft } from 'lucide-react';
 
 type Flashcard = {
   question: string,
@@ -14,6 +15,7 @@ export default function AiFlashcardForm({ params }: { params: Promise<{ deckId: 
   const [loading, setLoading] = useState(false);
   const [flashcards, setFlashcards] = useState<Flashcard[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [saving, setSaving] = useState(false);
   const router = useRouter();
   const { deckId } = use(params);
 
@@ -53,6 +55,8 @@ export default function AiFlashcardForm({ params }: { params: Promise<{ deckId: 
   };
 
   const handleSaveFlashcards = async () => {
+
+    setSaving(true);
   
     const res = await fetch(`/api/decks/${deckId}/flashcards`, {
       method: "POST",
@@ -61,6 +65,8 @@ export default function AiFlashcardForm({ params }: { params: Promise<{ deckId: 
       },
       body: JSON.stringify(flashcards),
     });
+
+    setSaving(false);
 
     if (res.ok) {
       
@@ -73,8 +79,16 @@ export default function AiFlashcardForm({ params }: { params: Promise<{ deckId: 
 
   return (
     <div className="p-6">
+      <div className="mb-6">
+        <button
+          onClick={() => router.push(`/decks/${deckId}`)}
+          className="flex items-center text-blue-600 hover:text-blue-800 transition-colors"
+        >
+          <ArrowLeft className="w-5 h-5 mr-2" />
+          <span className="font-medium">Takaisin pakan tietoihin</span>
+        </button>
+      </div>
       <h2 className="text-2xl font-bold mb-4">Luo AI-muistikortteja</h2>
-      <p className="text-sm text-gray-500"> Suositus: maksimissaan 20 korttia kerralla. </p>
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="relative">
@@ -86,6 +100,7 @@ export default function AiFlashcardForm({ params }: { params: Promise<{ deckId: 
             value={text}
             onChange={(e) => setText(e.target.value)}
             placeholder="Kirjoita aiheesta tai syötä valmis teksti..."
+            required
           />
           <p className="absolute bottom-2 right-2 text-sm text-gray-500">
             {text.length}/8000 merkkiä
@@ -100,7 +115,14 @@ export default function AiFlashcardForm({ params }: { params: Promise<{ deckId: 
           {loading ? 'Luodaan...' : 'Luo muistikortit'}
         </button>
       </form>
-      
+
+      <button
+        className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 mt-2"
+        onClick={() => router.push(`/decks/create-cards/${deckId}`)}
+      >
+        Luo muistikortteja manuaalisesti
+      </button>
+
       {error && <p className="text-red-500 mt-2">{error}</p>}
 
       {flashcards.length > 0 && (
@@ -108,8 +130,9 @@ export default function AiFlashcardForm({ params }: { params: Promise<{ deckId: 
           <button
             onClick={handleSaveFlashcards}
             className="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded transition-colors shadow"
+            disabled={saving}
           >
-            Tallenna muistikortit
+            {saving ? 'Tallennetaan...' : 'Tallenna muistikortit'}
           </button>
 
           <div className="mt-6 w-[500px]">

@@ -15,6 +15,8 @@ export default function CreateFlashcards({ params }: { params: Promise<{ deckId:
   const [flashcards, setFlashcards] = useState<Flashcard[]>([]);
   const [newFlashcard, setNewFlashcard] = useState<Flashcard>({ question: "", answer: "" });
   const router = useRouter();
+  const [error, setError] = useState<string | null>(null);
+
 
   useEffect(() => {
     const fetchDeck = async () => {
@@ -35,6 +37,12 @@ export default function CreateFlashcards({ params }: { params: Promise<{ deckId:
 
 
   const handleAddFlashcard = () => {
+    setError("");
+
+    if(newFlashcard.answer === "" || newFlashcard.question === ""){
+      setError("Molemmat kysymys sekä vastaus ovat pakollisia.")
+      return
+    }
     setFlashcards([...flashcards, newFlashcard]);
     setNewFlashcard({ question: "", answer: "" });
   };
@@ -46,7 +54,7 @@ export default function CreateFlashcards({ params }: { params: Promise<{ deckId:
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ flashcards }),
+      body: JSON.stringify( flashcards ),
     });
 
     if (res.ok) {
@@ -94,6 +102,9 @@ export default function CreateFlashcards({ params }: { params: Promise<{ deckId:
             className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
           />
         </div>
+
+       {error && <p className="text-red-500 mt-2">{error}</p>}
+
   
         <button
           onClick={handleAddFlashcard}
@@ -102,6 +113,14 @@ export default function CreateFlashcards({ params }: { params: Promise<{ deckId:
           Lisää muistikortti
         </button>
       </div>
+
+      <button
+        className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors shadow mt-2"
+        onClick={() => router.push(`/decks/create-cards/ai/${deckId}`)}
+      >
+        Luo muistikortteja tekoälyn avulla
+      </button>
+      
   
       <div className="mt-6">
         <h3 className="text-lg font-semibold text-gray-800 mb-2">Muistikortit joita ollaan lisäämässä:</h3>

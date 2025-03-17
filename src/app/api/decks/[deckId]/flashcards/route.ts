@@ -3,7 +3,7 @@ import { prisma } from '@/lib/prisma';
 import { getServerSession } from 'next-auth'; 
 import { authOptions } from '../../../auth/[...nextauth]/route'; 
 
-type FlashcardInput = {
+type Flashcard = {
     question: string;
     answer: string;
 };
@@ -39,7 +39,7 @@ export async function POST(request: Request, { params }: { params: Promise<{ dec
   }
 
   const { deckId } = await params;
-  const flashcards: FlashcardInput[] = await request.json();
+  const flashcards: Flashcard[] = await request.json();
 
 
   const deck = await prisma.deck.findUnique({
@@ -57,7 +57,7 @@ export async function POST(request: Request, { params }: { params: Promise<{ dec
 
   try {
     const createdFlashcards = await Promise.all(
-      flashcards.map(({ question, answer }: FlashcardInput) => {
+      flashcards.map(({ question, answer }: Flashcard) => {
         if (!question || !answer) {
           throw new Error('Molemmat kysymys sekä vastaus ovat pakollisia');
         }

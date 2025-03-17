@@ -40,6 +40,15 @@ export async function GET() {
 
   
     try {
+
+      const deckCount = await prisma.deck.count({
+        where: { userId: session.user.id },
+      });
+  
+      if (deckCount >= 10) {
+        return NextResponse.json({ error: "Voit luoda enintään 10 pakkaa" }, { status: 403 });
+      }
+  
       const deck = await prisma.deck.create({
         data: {
           name,

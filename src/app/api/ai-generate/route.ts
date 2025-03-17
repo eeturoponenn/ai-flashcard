@@ -1,5 +1,8 @@
 import OpenAI from "openai";
 import { NextResponse } from "next/server";
+import { getServerSession } from "next-auth";
+import { authOptions } from "../auth/[...nextauth]/route";
+import { checkAndIncrementApiUsage } from "@/lib/apiUsage";
 
 const openai = new OpenAI({
     apiKey: process.env.OPENAI_KEY
@@ -7,7 +10,19 @@ const openai = new OpenAI({
 
 export async function POST(req: Request) {
   try {
+
+    const session = await getServerSession(authOptions);
+    if (!session) {
+      return NextResponse.json({ error: 'Ei oikeutta' }, { status: 401 });
+    }
+
     const { text } = await req.json();
+    if (!text) {
+      return NextResponse.json({ error: "Tekstiä ei saatu" }, { status: 400 });
+    }
+
+    // Tarkistetaan ja päivitetään API-kutsujen määrä käyttäjälle
+    await checkAndIncrementApiUsage(session.user.id);
 
     const prompt = `
     Luo korkeintaan 20 flashcardia seuraavasta tekstistä JSON-muodossa.
@@ -60,7 +75,7 @@ export async function POST(req: Request) {
   } catch (error) {
     console.error("Virhe AI-käsittelyssä:", error);
     return NextResponse.json(
-      { error: "Jotain meni pieleen AI-käsittelyssä. Yritä uudestaan." },
+      { error: "Jotain meni pieleen AI-käsittelyssä. Yritä myöhemmin uudestaan." },
       { status: 500 }
     );
   }

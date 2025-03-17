@@ -44,4 +44,13 @@ model Flashcard {
   deck    Deck   @relation(fields: [deckId], references: [id], onDelete: Cascade)
 }
 
+model ApiUsage {
+  id        String     @id @default(uuid())
+  userId    String
+  date      DateTime @default(now())
+  calls     Int      @default(0)
+
+  @@index([userId, date])
+}
+
 
