@@ -8,8 +8,6 @@ export default function SignIn() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
-  console.log(process.env.NODE_ENV, "moi")
-
   const callbackUrl = process.env.NODE_ENV === 'development' 
   ? 'http://localhost:3000/decks'
   : process.env.NEXTAUTH_URL + "/decks";
