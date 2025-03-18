@@ -8,6 +8,10 @@ export default function SignIn() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
+  const callbackUrl = process.env.NODE_ENV === 'development' 
+  ? 'http://localhost:3000/decks'
+  : process.env.NEXTAUTH_URL;
+
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -21,14 +25,15 @@ export default function SignIn() {
       email,
       password,
       redirect: false,
-      callbackUrl: "/decks",
+      callbackUrl: callbackUrl,
     });
 
     if (result?.error) {
+      console.log('result:', result);
       setError("Virheellinen sähköposti tai salasana.");
       setLoading(false);
     } else {
-      
+      console.log('Logged in:', result);
       router.push("/decks")
     }
   };
