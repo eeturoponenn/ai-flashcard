@@ -2,12 +2,13 @@
 import { useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { getSession } from 'next-auth/react';
 
 export default function SignIn() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+
+  console.log(process.env.NODE_ENV, "moi")
 
   const callbackUrl = process.env.NODE_ENV === 'development' 
   ? 'http://localhost:3000/decks'
@@ -36,16 +37,6 @@ export default function SignIn() {
     } else {
       console.log('Logged in:', result);
       
-      // Odotetaan, että voidaan redirectaa käyttäjä eteenpäin
-
-      let tries = 0;
-      let session = await getSession();
-      while (!session && tries < 10) {
-        await new Promise(resolve => setTimeout(resolve, 300));
-        session = await getSession();
-        tries++;
-      }
-
       router.replace("/decks");
       
     }
