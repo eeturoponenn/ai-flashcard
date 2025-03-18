@@ -1,6 +1,6 @@
 import { prisma } from '@/lib/prisma';
 
-const MAX_CALLS_PER_DAY = 100;
+const MAX_CALLS_PER_DAY = 50;
 
 export async function checkAndIncrementApiUsage(userId: string) {
   const today = new Date();

@@ -56,7 +56,7 @@ export default function SignUp() {
         })
 
         if (signInResponse?.error) {
-          setError('Kirjautuminen epäonnistui')
+          setError('Rekisteröitymisen jälkeinen kirjautuminen epäonnistui. Yritä uudestaan.')
         } else {
           
           router.push('/decks')

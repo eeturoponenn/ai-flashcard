@@ -11,7 +11,7 @@ export default function SignIn() {
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    setError(null); // Clear previous errors
+    setError(null); 
 
     const formData = new FormData(e.target as HTMLFormElement);
     const email = formData.get("email") as string;

@@ -2,13 +2,16 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useSession } from "next-auth/react";
 import { LoginButton, LogoutButton } from "../auth";
+import { User } from "lucide-react";
 
-export const Navigation = () =>{
+export const Navigation = () => {
     const pathname = usePathname();
+    const { data: session } = useSession();
 
-    return(
-        <nav className="flex items-center justify-between px-20">
+    return (
+        <nav className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4">
             <div className="text-2xl font-bold">
                 <Link href="/">AI Muistikortit</Link>
             </div>
@@ -21,6 +24,15 @@ export const Navigation = () =>{
                 </Link>
             </div>
             <div className="flex space-x-4">
+                {session?.user?.id && (
+                    <Link
+                        href={`/profile/${session.user.id}`}
+                        className="bg-blue-100 hover:bg-blue-200 p-2 rounded-full transition"
+                        title="Profiili"
+                    >
+                        <User className="w-5 h-5 text-blue-700" />
+                    </Link>
+                )}
                 <LoginButton />
                 <LogoutButton />
             </div>
