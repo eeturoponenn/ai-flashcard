@@ -10,7 +10,7 @@ export default function SignIn() {
 
   const callbackUrl = process.env.NODE_ENV === 'development' 
   ? 'http://localhost:3000/decks'
-  : process.env.NEXTAUTH_URL;
+  : process.env.NEXTAUTH_URL + "/decks";
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
