@@ -33,7 +33,14 @@ export default function SignIn() {
     } else {
       console.log('Logged in:', result);
       
-      window.location.href = result?.url || "/decks";
+      const redirectWithTimeout = (url: string, delay: number) => {
+        setTimeout(() => {
+          window.location.href = url;
+        }, delay);
+      };
+      
+      const resultUrl = result?.url || "/decks";
+      redirectWithTimeout(resultUrl, 2000);
       
     }
   };
