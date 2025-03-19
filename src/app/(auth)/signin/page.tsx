@@ -1,12 +1,10 @@
 "use client";
 import { useState } from "react";
 import { signIn } from "next-auth/react";
-import { useRouter } from "next/navigation";
 
 export default function SignIn() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-  const router = useRouter();
 
   const callbackUrl = process.env.NODE_ENV === 'development' 
   ? 'http://localhost:3000/decks'
