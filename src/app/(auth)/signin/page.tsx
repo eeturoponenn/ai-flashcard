@@ -31,7 +31,7 @@ export default function SignIn() {
       email,
       password,
       redirect: false,
-      callbackUrl: callbackUrl,
+      callbackUrl: "https://ai-flashcard-alpha.vercel.app/decks",
     });
 
 
