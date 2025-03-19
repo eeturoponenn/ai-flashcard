@@ -13,6 +13,10 @@ export default function SignUp() {
   const router = useRouter()
 
 
+  const callbackUrl = process.env.NODE_ENV === 'development' 
+  ? 'http://localhost:3000/decks'
+  : process.env.NEXTAUTH_URL + "/decks";
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
@@ -50,9 +54,10 @@ export default function SignUp() {
       } else {
         
         const signInResponse = await signIn('credentials', {
-          redirect: false,
+          redirect: true,
           email,
           password,
+          callbackUrl: callbackUrl
         })
 
         if (signInResponse?.error) {
