@@ -35,7 +35,7 @@ export default function SignIn() {
     } else {
       console.log('Logged in:', result);
       
-      router.replace("/decks");
+      window.location.href = result?.url || "/decks";
       
     }
   };
