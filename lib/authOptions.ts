@@ -77,9 +77,8 @@ export const authOptions: NextAuthOptions = {
       }
       return token;
     },
-    async redirect({ url, baseUrl }) {
-      console.log("Redirect callback:", { url, baseUrl });
-      return url.startsWith(baseUrl) ? url : baseUrl;
+    redirect({ baseUrl }) {
+      return `${baseUrl}/decks`;
     },
   }
 }
