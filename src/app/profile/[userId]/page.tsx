@@ -8,7 +8,7 @@ export default function ProfilePage() {
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [message, setMessage] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(false); // 👈 Uusi tila
+  const [isLoading, setIsLoading] = useState(false);
 
   const handlePasswordChange = async () => {
     if (newPassword !== confirmPassword) {
@@ -16,7 +16,7 @@ export default function ProfilePage() {
       return;
     }
 
-    setIsLoading(true); // 👈 Aloita lataustila
+    setIsLoading(true); 
     setMessage(null);
 
     try {
@@ -37,7 +37,7 @@ export default function ProfilePage() {
     } catch (error) {
       setMessage('Virhe salasanan vaihdossa ' + error);
     } finally {
-      setIsLoading(false); // 👈 Lataustila pois
+      setIsLoading(false);
     }
   };
 

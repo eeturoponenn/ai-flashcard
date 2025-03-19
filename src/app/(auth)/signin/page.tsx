@@ -1,14 +1,22 @@
 "use client";
 import { useState } from "react";
 import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
+
 
 export default function SignIn() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
+  const { data: session } = useSession();
+
 
   const callbackUrl = process.env.NODE_ENV === 'development' 
   ? 'http://localhost:3000/decks'
   : process.env.NEXTAUTH_URL + "/decks";
+
+  console.log("callbackurl", callbackUrl);
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -26,24 +34,23 @@ export default function SignIn() {
       callbackUrl: callbackUrl,
     });
 
+
+    console.log("Result: ", result)
+
     if (result?.error) {
-      console.log('result:', result);
+
       setError("Virheellinen sähköposti tai salasana.");
       setLoading(false);
     } else {
-      console.log('Logged in:', result);
+
+    console.log("Session", session)
       
-      const redirectWithTimeout = (url: string, delay: number) => {
-        setTimeout(() => {
-          window.location.href = url;
-        }, delay);
-      };
-      
-      const resultUrl = result?.url || "/decks";
-      redirectWithTimeout(resultUrl, 2000);
+      router.push("/decks")
       
     }
   };
+  console.log("Session1", session)
+
 
   return (
     <form

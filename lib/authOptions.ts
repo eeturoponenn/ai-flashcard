@@ -56,24 +56,30 @@ export const authOptions: NextAuthOptions = {
     })
   ],
   callbacks: {
-    session: ({ session, token }) => {
+    async session({ session, token }) {
+      console.log("Session callback:", { session, token });
       return {
         ...session,
         user: {
           ...session.user,
-          id: token.id
-        }
-      }
+          id: token.id,
+        },
+      };
     },
-    jwt: ({ token, user }) => {
+    async jwt({ token, user }) {
       if (user) {
-        const u = user as unknown as User
+        console.log("JWT callback - User:", user);
+        const u = user as unknown as User;
         return {
           ...token,
-          id: u.id
-        }
+          id: u.id,
+        };
       }
       return token;
+    },
+    async redirect({ url, baseUrl }) {
+      console.log("Redirect callback:", { url, baseUrl });
+      return url.startsWith(baseUrl) ? url : baseUrl;
     },
   }
 }
