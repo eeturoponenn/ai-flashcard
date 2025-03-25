@@ -30,6 +30,11 @@ export default function SignUp() {
       return
     }
 
+    if (!/\d/.test(password)) {
+      setError('Salasanassa täytyy olla ainakin yksi numero')
+      return
+    }
+
     if (password !== confirmPassword) {
       setError('Salasanat eivät täsmää')
       return

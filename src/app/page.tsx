@@ -17,9 +17,14 @@ export default function Home() {
           Luo muistikortteja automaattisesti, ja tehosta oppimistasi tekoälyn avulla.
         </p>
         <button 
-          onClick={() => router.push("/decks")}
+          onClick={() => router.push("/signup")}
           className="mt-6 px-6 py-3 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700">
-          Aloita nyt
+          Aloita harjoittelu rekisteröitymällä
+        </button>
+        <button 
+          onClick={() => router.push("/ai-test")}
+          className="mt-6 px-6 py-3 mx-5 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700">
+          Testaa korttien luontia tekoälylä
         </button>
       </section>
 

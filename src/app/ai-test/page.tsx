@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, use } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { ArrowLeft } from 'lucide-react';
 
@@ -9,15 +9,13 @@ type Flashcard = {
   answer: string
 }
 
-export default function AiFlashcardForm({ params }: { params: Promise<{ deckId: string }> }) {
+export default function AiFlashcardForm() {
 
   const [text, setText] = useState('');
   const [loading, setLoading] = useState(false);
   const [flashcards, setFlashcards] = useState<Flashcard[]>([]);
   const [error, setError] = useState<string | null>(null);
-  const [saving, setSaving] = useState(false);
   const router = useRouter();
-  const { deckId } = use(params);
 
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -27,7 +25,7 @@ export default function AiFlashcardForm({ params }: { params: Promise<{ deckId: 
   
     try {
       setError(null);
-      const res = await fetch('/api/ai-generate', {
+      const res = await fetch('/api/ai-test-generate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ text }),
@@ -54,41 +52,19 @@ export default function AiFlashcardForm({ params }: { params: Promise<{ deckId: 
     }
   };
 
-  const handleSaveFlashcards = async () => {
-
-    setSaving(true);
-  
-    const res = await fetch(`/api/decks/${deckId}/flashcards`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(flashcards),
-    });
-
-    setSaving(false);
-
-    if (res.ok) {
-      
-      router.push(`/decks/${deckId}`);
-    } else {
-    
-      alert("Korttien luonti epäonnistui. Yritä uudestaan.");
-    }
-  };
 
   return (
     <div className="p-6">
       <div className="mb-6">
         <button
-          onClick={() => router.push(`/decks/${deckId}`)}
+          onClick={() => router.push("/")}
           className="flex items-center text-blue-600 hover:text-blue-800 transition-colors"
         >
           <ArrowLeft className="w-5 h-5 mr-2" />
-          <span className="font-medium">Takaisin pakan tietoihin</span>
+          <span className="font-medium">Takaisin etusivulle</span>
         </button>
       </div>
-      <h2 className="text-2xl font-bold mb-4">Luo AI-muistikortteja</h2>
+      <h2 className="text-2xl font-bold mb-4">Testaa korttien luontia tekoälyn avulla</h2>
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="relative">
@@ -116,25 +92,10 @@ export default function AiFlashcardForm({ params }: { params: Promise<{ deckId: 
         </button>
       </form>
 
-      <button
-        className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 mt-2"
-        onClick={() => router.push(`/decks/create-cards/${deckId}`)}
-      >
-        Luo muistikortteja manuaalisesti
-      </button>
-
       {error && <p className="text-red-500 mt-2">{error}</p>}
 
       {flashcards.length > 0 && (
         <div className="mt-6">
-          <button
-            onClick={handleSaveFlashcards}
-            className="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded transition-colors shadow"
-            disabled={saving}
-          >
-            {saving ? 'Tallennetaan...' : 'Tallenna muistikortit'}
-          </button>
-
           <div className="mt-6 w-[500px]">
             <h3 className="text-xl font-semibold mb-2">Luodut kortit:</h3>
             <ul className="space-y-2">
