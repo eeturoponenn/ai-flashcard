@@ -57,7 +57,6 @@ export const authOptions: NextAuthOptions = {
   ],
   callbacks: {
     async session({ session, token }) {
-      console.log("Session callback:", { session, token });
       return {
         ...session,
         user: {
@@ -68,7 +67,6 @@ export const authOptions: NextAuthOptions = {
     },
     async jwt({ token, user }) {
       if (user) {
-        console.log("JWT callback - User:", user);
         const u = user as unknown as User;
         return {
           ...token,
@@ -78,8 +76,6 @@ export const authOptions: NextAuthOptions = {
       return token;
     },
     async redirect({ url, baseUrl }) {
-      console.log("url", url)
-      console.log("baseurl", baseUrl)
 
       if (url.startsWith("/")) {
         return `${baseUrl}${url}`;

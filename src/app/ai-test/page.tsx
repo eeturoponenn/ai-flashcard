@@ -69,7 +69,7 @@ export default function AiFlashcardForm() {
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="relative">
           <textarea
-            className="w-[500px] border border-gray-300 rounded p-2"
+            className="w-full max-w-[500px] border border-gray-300 rounded p-2"
             maxLength={8000}
             rows={10}
             cols={10}
@@ -85,7 +85,7 @@ export default function AiFlashcardForm() {
 
         <button
           type="submit"
-          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 w-full max-w-[500px]"
           disabled={loading}
         >
           {loading ? 'Luodaan...' : 'Luo muistikortit'}
@@ -96,7 +96,7 @@ export default function AiFlashcardForm() {
 
       {flashcards.length > 0 && (
         <div className="mt-6">
-          <div className="mt-6 w-[500px]">
+          <div className="mt-6 w-full max-w-[500px]">
             <h3 className="text-xl font-semibold mb-2">Luodut kortit:</h3>
             <ul className="space-y-2">
               {flashcards.map((card, index) => (
@@ -109,8 +109,6 @@ export default function AiFlashcardForm() {
           </div>
         </div>
       )}
-
-
     </div>
   );
 }

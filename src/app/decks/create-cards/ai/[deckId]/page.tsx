@@ -78,8 +78,8 @@ export default function AiFlashcardForm({ params }: { params: Promise<{ deckId: 
   };
 
   return (
-    <div className="p-6">
-      <div className="mb-6">
+    <div className="p-4 sm:p-6">
+      <div className="mb-4 sm:mb-6">
         <button
           onClick={() => router.push(`/decks/${deckId}`)}
           className="flex items-center text-blue-600 hover:text-blue-800 transition-colors"
@@ -88,12 +88,12 @@ export default function AiFlashcardForm({ params }: { params: Promise<{ deckId: 
           <span className="font-medium">Takaisin pakan tietoihin</span>
         </button>
       </div>
-      <h2 className="text-2xl font-bold mb-4">Luo AI-muistikortteja</h2>
+      <h2 className="text-xl sm:text-2xl font-bold mb-4">Luo AI-muistikortteja</h2>
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="relative">
           <textarea
-            className="w-[500px] border border-gray-300 rounded p-2"
+            className="w-full sm:w-[500px] border border-gray-300 rounded p-2"
             maxLength={8000}
             rows={10}
             cols={10}
@@ -109,7 +109,7 @@ export default function AiFlashcardForm({ params }: { params: Promise<{ deckId: 
 
         <button
           type="submit"
-          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+          className="w-full sm:w-auto bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
           disabled={loading}
         >
           {loading ? 'Luodaan...' : 'Luo muistikortit'}
@@ -117,7 +117,7 @@ export default function AiFlashcardForm({ params }: { params: Promise<{ deckId: 
       </form>
 
       <button
-        className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 mt-2"
+        className="w-full sm:w-auto bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 mt-2"
         onClick={() => router.push(`/decks/create-cards/${deckId}`)}
       >
         Luo muistikortteja manuaalisesti
@@ -129,14 +129,14 @@ export default function AiFlashcardForm({ params }: { params: Promise<{ deckId: 
         <div className="mt-6">
           <button
             onClick={handleSaveFlashcards}
-            className="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded transition-colors shadow"
+            className="w-full sm:w-auto bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded transition-colors shadow"
             disabled={saving}
           >
             {saving ? 'Tallennetaan...' : 'Tallenna muistikortit'}
           </button>
 
-          <div className="mt-6 w-[500px]">
-            <h3 className="text-xl font-semibold mb-2">Luodut kortit:</h3>
+          <div className="mt-6 w-full sm:w-[500px]">
+            <h3 className="text-lg sm:text-xl font-semibold mb-2">Luodut kortit:</h3>
             <ul className="space-y-2">
               {flashcards.map((card, index) => (
                 <li key={index} className="p-3 border rounded">
