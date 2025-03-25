@@ -36,15 +36,15 @@ Users can sign up with their email and password to access their personal flashca
 ### 3. Organize Flashcards in Decks
 Users can create, update, and delete decks to categorize their study material.
 
-### 4. Practice Mode (Planned Feature)
+### 4. Practice Mode
 A simple interface to review flashcards and test knowledge.
 
-## Gettin Started
+## Getting Started
 
 ### 1. Clone the repository
 
-git clone https://github.com/your-username/ai-flashcard-app.git
-cd ai-flashcard-app
+Download the zip file and extract it to a folder of your choice.
+Navigate to the project in your terminal
 
 ### 2. Install dependencies
 
@@ -55,7 +55,7 @@ npm install
 Create a .env file in the root directory and add the necessary environment variables:
 
 NEXTAUTH_SECRET=your-nextauth-secret
-DATABASE_URL=your-database-url
+DATABASE_URL=your-postgresql-database-url
 OPENAI_API_KEY=your-openai-api-key
 
 ### 4. Run the database migrations
