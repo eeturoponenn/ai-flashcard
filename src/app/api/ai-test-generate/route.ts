@@ -31,14 +31,14 @@ export async function POST(req: Request) {
     const completion = await openai.chat.completions.create({
       model: 'gpt-4o-mini', // Käytettävä malli
       temperature: 0.7, // Kontrolloi luovuuden tasoa: matala arvo tuottaa tarkempia vastauksia
-      max_tokens: 2500, // Rajaa vastausten pituutta (max 2500 tokenia)
+      max_tokens: 5000, // Rajaa vastausten pituutta (max 5000 tokenia)
       messages: [
         {
           role: "system", // Järjestelmälle viesti, joka määrittelee AI:n käyttäytymisen.
           content:
             `Olet suomenkielinen assistentti, joka palauttaa täsmälleen oikean JSON-muotoisen vastauksen ilman mitään ylimääräistä tekstiä. 
             Luo korkeintaan 10 ja vähintään 1 muistikortti. 
-            Jos käyttäjä pyytää enemmän, tee silti enintään 10. Älä koskaan tee yli 10 korttia.`,
+            Jos käyttäjä pyytää enemmän, tee silti enintään 10. Älä koskaan tee yli 10 korttia. Pidä vastaukset myös lyhyinä, vaikka käyttäjä pyytäisi enemmän tietoa.`,
         },
         {
           role: "user", // Käyttäjän syöte

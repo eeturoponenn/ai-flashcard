@@ -48,7 +48,7 @@ export async function POST(req: Request) {
           content:
             `Olet suomenkielinen assistentti, joka palauttaa täsmälleen oikean JSON-muotoisen vastauksen ilman mitään ylimääräistä tekstiä. 
             Luo korkeintaan 20 ja vähintään 1 muistikortti. 
-            Jos käyttäjä pyytää enemmän, tee silti enintään 20. Älä koskaan tee yli 20 korttia.`,
+            Jos käyttäjä pyytää enemmän, tee silti enintään 20. Älä koskaan tee yli 20 korttia. Pidä vastaukset myös aina lyhyinä, vaikka käyttäjä pyytäisi enemmän tietoa.`,
         },
         {
           role: "user", // Käyttäjän syöte
