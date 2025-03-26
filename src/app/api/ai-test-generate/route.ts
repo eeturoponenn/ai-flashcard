@@ -15,7 +15,7 @@ export async function POST(req: Request) {
 
 
     const prompt = `
-    Luo korkeintaan 10 flashcardia seuraavasta tekstistä JSON-muodossa.
+    Luo korkeintaan 5 flashcardia seuraavasta tekstistä JSON-muodossa.
     Palauta vastaus ainoastaan seuraavan JSON-muodon mukaisesti:
 
     [
@@ -37,8 +37,8 @@ export async function POST(req: Request) {
           role: "system", // Järjestelmälle viesti, joka määrittelee AI:n käyttäytymisen.
           content:
             `Olet suomenkielinen assistentti, joka palauttaa täsmälleen oikean JSON-muotoisen vastauksen ilman mitään ylimääräistä tekstiä. 
-            Luo korkeintaan 10 ja vähintään 1 muistikortti. 
-            Jos käyttäjä pyytää enemmän, tee silti enintään 10. Älä koskaan tee yli 10 korttia. Pidä vastaukset myös lyhyinä, vaikka käyttäjä pyytäisi enemmän tietoa.`,
+            Luo korkeintaan 5 ja vähintään 1 muistikortti. 
+            Jos käyttäjä pyytää enemmän, tee silti enintään 5. Älä koskaan tee yli 5 korttia. Pidä vastaukset lyhyinä, vaikka käyttäjä pyytäisi enemmän tietoa.`,
         },
         {
           role: "user", // Käyttäjän syöte
